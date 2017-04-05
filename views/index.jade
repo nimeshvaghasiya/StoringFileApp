@@ -3,3 +3,13 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  .jumbotron
+        h1 Download File
+        |             
+        .form-group
+          // <label for="fileUrl">Url</label>
+          input#fileUrl.form-control(type='text', placeholder='Url')
+        |             
+        button.btn.btn-success(type='button', onclick='download();') Download
+  

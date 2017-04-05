@@ -4,23 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
 
-var Datastore = require('nedb')
-  , db = new Datastore({ filename: path.join(__dirname, 'db/datafile.db'), autoload: true });
+// use it before all route definitions
+app.use(cors({origin: 'http://localhost:3000'}));
 
-
-var datafile={filename:'test',data:'xyz'};
-db.insert(datafile,function(err,newDataFile){
-     console.log(newDataFile);
-});
-
-db.find({filename:'test'},function(err,docs){
-  console.log(docs);
-});
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,14 +32,14 @@ app.use('/', index);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -55,4 +49,31 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// // Add headers
+// app.use(function (req, res, next) {
+
+//     // Website you wish to allow to connect
+//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+//     // Request methods you wish to allow
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+//     // Request headers you wish to allow
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+//     // Set to true if you need the website to include cookies in the requests sent
+//     // to the API (e.g. in case you use sessions)
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+
+//     // Pass to next layer of middleware
+//     next();
+// });
+
+// app.post('/storingfile', function (req, res) {
+//   var obj = {};
+//   console.log('body: ' + JSON.stringify(req.body));
+//   res.send(req.body);
+// });
+
+app.listen(3001);
 module.exports = app;
