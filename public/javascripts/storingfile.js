@@ -39,6 +39,7 @@ function download() {
                         success: function (data) {
                             console.log('success');
                             console.log(JSON.stringify(data));
+                            alert(data);
                         }
                     });
 

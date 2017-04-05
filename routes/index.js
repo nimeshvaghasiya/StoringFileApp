@@ -16,6 +16,7 @@ router.post('/storingfile', function (req, res) {
   db.find({ title: 'test' }, function (err, docs) {
     //console.log(docs);
   });
+  res.send("saved successfully.");
   // do something w/ req.body or req.files 
 });
 

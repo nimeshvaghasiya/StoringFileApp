@@ -30,6 +30,7 @@ build/Release
 node_modules
 jspm_packages
 db
+routes/db
 
 # Optional npm cache directory
 .npm
